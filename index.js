@@ -1,54 +1,35 @@
 console.log("Hallo");
 
-// function StringChallenge(str) {
-//   const arr = str.split("");
-//   let remainingCharacters = 2;
-
-//   let isPalindrome = true;
-
-//   for (let i = 0; i < arr.length; i++) {
-//     if (remainingCharacters < 0) return "not possible";
-//     if (arr[i] != arr[arr.length - i - 1]) isPalindrome = false;
-
-//     console.log(arr[i], arr[arr.length - i - 1]);
-//   }
-
-//   if (arr.length < 3) return "not possible";
-
-//   if (isPalindrome) return "palindrome";
-
-//   return isPalindrome ? "k" : "not possible";
-// }
-
-function StringChallenge(str) {
+function stringChallenge(str) {
+  let isPalindrome = true;
   const arr = str.split("");
+  const removedChars = [];
   let remainingCharacters = 2;
+  let lastMatchingCharIndex;
 
+  // 1) Palindrome case
   for (let i = 0; i < arr.length; i++) {
-    if (remainingCharacters < 0) return "not possible";
-
-    for (let j = arr.length - 1; j < 0; j--) {
-      if (arr[j] != arr[arr.length - j - 1]) {
-        isPalindrome = false;
-      }
-    }
-
-    console.log(arr[i], arr[arr.length - i - 1]);
+    if (arr[i] != arr[arr.length - i - 1]) isPalindrome = false;
   }
 
-  if (arr.length == str.length) return "palindrome";
-  else return "k";
-  // switch (remainingCharacters) {
-  //   case 2:
-  //     return "palindrome";
-  //   case 1:
-  //   case 0:
-  //     return "k";
-  //   default:
-  //     return "not possible";
-  // }
+  if (isPalindrome) return "palindrome";
+
+  // 2) Can be palindrome case
+  for (let i = 0; i < arr.length; i++) {
+    if (lastMatchingCharIndex === undefined) removedChars.push(arr.shift());
+
+    console.log(arr[lastMatchingCharIndex], lastMatchingCharIndex);
+
+    lastMatchingCharIndex = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] == arr[j]) lastMatchingCharIndex = j;
+    }
+  }
+
+  if (removedChars.length < 2) return removedChars.join("");
+  return "not possible";
 }
 
-// console.log(StringChallenge("mmop"));
-// console.log(StringChallenge("kjjjhjjj"));
-console.log(StringChallenge("kk"));
+// console.log(stringChallenge("kjjjhjjj"));
+console.log(stringChallenge("hshk"));
+// console.log(stringChallenge("kk"));
